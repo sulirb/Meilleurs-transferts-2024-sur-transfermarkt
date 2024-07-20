@@ -1,0 +1,26 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: black;
+}
+.transfer {
+  background-color: #454343;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.player {
+  color: #ffdd25;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+.position {
+  color: white;
+}
+.transfer-details {
+  margin-top: 5px;
+  font-size: 0.9em;
+  color: white;
+}
