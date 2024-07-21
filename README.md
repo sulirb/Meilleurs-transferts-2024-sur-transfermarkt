@@ -1,5 +1,5 @@
-## Best transfers 2024
+## Meilleurs transferts 2024
 
-More than 500 transfers has been scraped from transfermarkt with python.
+Plus de 500 transferts ont été scrapés sur transfermarkt grâce à python
 
-In that page, you can find the 150 best transfers for the summer 2024, either for all positions or for one position in particular (goalkeepers, defenders, midfields and forwards)
+Vous pourrez ainsi trouver les 150 meilleurs transferts pour l'été 2024, que ce soit pour tous les postes ou pour un poste en particulier (gardien, défenseur, milieu de terrain et attaquant)

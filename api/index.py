@@ -3,9 +3,10 @@ from selenium import webdriver
 from selenium.webdriver.firefox.service import Service
 from flask import Flask, jsonify, render_template_string
 import concurrent.futures
+import os
 
 app = Flask(__name__)
-gecko_driver_path = "../webdriver/geckodriver.exe"
+gecko_driver_path = os.path.join(os.path.dirname(__file__), "../webdriver/geckodriver.exe")
 
 options = webdriver.FirefoxOptions()
 options.add_argument('--headless')
@@ -65,7 +66,7 @@ def fetch_transfer_data(url):
         for player, montant, club_pair, position in zip(players, montants, chunked(clubs, 2), positions):
             club_1 = club_pair[0]
             club_2 = club_pair[1] if len(club_pair) > 1 else 'N/A'  # Handle case where clubs list is odd
-            complete_transfer.append(f'<div class="transfer"><div class="player">{player}</div> <div class="position">({position})</div> <div class="transfer-details">{club_1} ------> {club_2} (fee: {montant})</div></div>\n')
+            complete_transfer.append(f'<div class="transfer"><div class="player">{player}</div> <div class="position">({position})</div> <div class="transfer-details">{club_1} ------> {club_2} (prix: {montant})</div></div>\n')
             
         return complete_transfer
 
@@ -125,7 +126,7 @@ def transfertsDefenseurs():
     base_url = "https://www.transfermarkt.fr/transfers/saisontransfers/statistik?land_id=0&ausrichtung=Abwehr&spielerposition_id=&altersklasse=&leihe=&transferfenster=&saison-id=0&plus=1&page="
     return run_script(base_url)
 
-@app.route('/midfields', methods=['GET'])
+@app.route('/midfielders', methods=['GET'])
 def transfertsMilieux():
     base_url = "https://www.transfermarkt.fr/transfers/saisontransfers/statistik?land_id=0&ausrichtung=Mittelfeld&spielerposition_id=&altersklasse=&leihe=&transferfenster=&saison-id=0&plus=1&page="
     return run_script(base_url)
