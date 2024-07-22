@@ -11,8 +11,14 @@ body {
   margin-bottom: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.player {
+a {
   color: #ffdd25;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+.player {
   font-weight: bold;
   font-size: 1.2em;
 }

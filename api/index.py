@@ -4,6 +4,7 @@ from selenium.webdriver.firefox.service import Service
 from flask import Flask, jsonify, render_template_string
 import concurrent.futures
 import os
+from urllib.parse import urljoin
 
 app = Flask(__name__)
 gecko_driver_path = os.path.join(os.path.dirname(__file__), "../webdriver/geckodriver.exe")
@@ -37,6 +38,7 @@ def fetch_transfer_data(url):
         players = []
         clubs = []
         montants = []
+        anchors = []
 
         for player_profile in player_profiles:
             found_position = None
@@ -57,16 +59,21 @@ def fetch_transfer_data(url):
         for montant in transfer_tab.select("td.rechts.hauptlink, td.rechts.hauptlink.bg-gruen_20"):
             montants.append(montant.text)
 
+        for link in transfer_tab.find_all("a", href=True):
+            if 'profil/spieler' in link['href']:
+                full_url = urljoin(url, link['href'])
+                anchors.append(full_url)
+
         def chunked(iterable, n):
             """Yield successive n-sized chunks from iterable."""
             for i in range(0, len(iterable), n):
                 yield iterable[i:i + n]
         
         complete_transfer = []
-        for player, montant, club_pair, position in zip(players, montants, chunked(clubs, 2), positions):
+        for player, montant, club_pair, position, link in zip(players, montants, chunked(clubs, 2), positions, anchors):
             club_1 = club_pair[0]
             club_2 = club_pair[1] if len(club_pair) > 1 else 'N/A'  # Handle case where clubs list is odd
-            complete_transfer.append(f'<div class="transfer"><div class="player">{player}</div> <div class="position">({position})</div> <div class="transfer-details">{club_1} ------> {club_2} (prix: {montant})</div></div>\n')
+            complete_transfer.append(f'<div class="transfer"><div class="player"><a href="{link}" target="_blank">{player}</a></div> <div class="position">({position})</div> <div class="transfer-details">{club_1} ------> {club_2} (prix: {montant})</div></div>\n')
             
         return complete_transfer
 
