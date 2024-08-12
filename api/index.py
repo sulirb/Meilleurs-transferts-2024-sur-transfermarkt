@@ -64,15 +64,14 @@ def fetch_transfer_data(url):
                 full_url = urljoin(url, link['href'])
                 anchors.append(full_url)
 
-        def chunked(iterable, n):
-            """Yield successive n-sized chunks from iterable."""
-            for i in range(0, len(iterable), n):
-                yield iterable[i:i + n]
+        def chunked(lst, n):
+            for i in range(0, len(lst), n):
+                yield lst[i:i + n]
         
         complete_transfer = []
         for player, montant, club_pair, position, link in zip(players, montants, chunked(clubs, 2), positions, anchors):
             club_1 = club_pair[0]
-            club_2 = club_pair[1] if len(club_pair) > 1 else 'N/A'  # Handle case where clubs list is odd
+            club_2 = club_pair[1] if len(club_pair) > 1 else 'N/A'
             complete_transfer.append(f'<div class="transfer"><div class="player"><a href="{link}" target="_blank">{player}</a></div> <div class="position">({position})</div> <div class="transfer-details">{club_1} ------> {club_2} (prix: {montant})</div></div>\n')
             
         return complete_transfer
@@ -83,10 +82,6 @@ def fetch_transfer_data(url):
 
 def run_script(base_url, num_pages = 6):
     urls=[f"{base_url}{page}" for page in range(1, num_pages + 1)]
-    #base_url = "https://www.transfermarkt.fr/transfers/saisontransfers/statistik?land_id=0&ausrichtung=&spielerposition_id=&altersklasse=&leihe=&transferfenster=&saison-id=0&plus=1&page="
-    #base_url_per_position = base_url.replace("spielerposition_id=", "spielerposition_id=14")
-    #urls=[f"{base_url}{page}" for page in range(1, num_pages + 1)]
-    #urls = [f"{base_url_per_position}{page}" for page in range(1, num_pages + 1)]
     
     all_transfers = []
     try:
@@ -119,9 +114,27 @@ def run_script(base_url, num_pages = 6):
         return jsonify(error=str(e))
 
 @app.route('/', methods=['GET'])
-def transferts():
-    base_url = "https://www.transfermarkt.fr/transfers/saisontransfers/statistik?land_id=0&ausrichtung=&spielerposition_id=&altersklasse=&leihe=&transferfenster=&saison-id=0&plus=1&page="
-    return run_script(base_url)
+def home():
+    content = """
+        <!DOCTYPE html>
+        <html lang="fr">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Meilleurs transferts</title>
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        </head>
+        <body>
+            <div class="container">
+                <a href="/goalkeepers">Goalkeepers</a>
+                <a href="/defenders">Defenders</a>
+                <a href="/midfielders">Midfielders</a>
+                <a href="/forwards">Forwards</a>
+            </div>
+        </body>
+        </html>
+        """
+    return render_template_string(content)
 
 @app.route('/goalkeepers', methods=['GET'])
 def transfertsGardiens():
