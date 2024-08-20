@@ -3,13 +3,31 @@ body {
   margin: 20px;
   background-color: black;
 }
-.transfer {
+h1 {
+  text-align: center;
+  color: #ffdd25;
+}
+h2 {
+  color: #ffdd25;
+}
+.transfer,
+.home-container {
   background-color: #454343;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 10px;
   margin-bottom: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+label {
+  color: white;
+}
+li {
+  margin: 1em;
+  list-style-type: disclosure-closed;
+}
+li::marker {
+  color: rgb(255, 255, 255);
 }
 a {
   color: #ffdd25;
@@ -20,13 +38,29 @@ a:hover {
 }
 .player {
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 1.4em;
 }
 .position {
   color: white;
 }
 .transfer-details {
   margin-top: 5px;
-  font-size: 0.9em;
+  font-size: 1.2em;
   color: white;
+  display: flex;
+  align-items: center;
+}
+.ci--arrow-right-lg {
+  margin: 0 0.5em;
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m21 12l-5-5m5 5l-5 5m5-5H3'/%3E%3C/svg%3E");
+  background-color: currentColor;
+  -webkit-mask-image: var(--svg);
+  mask-image: var(--svg);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
 }

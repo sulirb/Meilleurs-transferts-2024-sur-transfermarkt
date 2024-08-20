@@ -1,8 +1,10 @@
-### MEILLEURS TRANSFERTS 2024
+# MEILLEURS TRANSFERTS 2024
 
 ### Introduction
 
-Ce projet est une application web développée avec Flask qui utilise Selenium et BeautifulSoup pour extraire des données de transfert de joueurs de football depuis le site Transfermarkt. Les données récupérées sont affichées sur différentes routes de l'application.
+Ce projet est une application web développée avec Flask qui utilise Selenium et BeautifulSoup pour extraire des données d'environ 1500 transferts de joueurs de football depuis le site Transfermarkt. Les données récupérées sont affichées sur différentes routes de l'application.
+
+![exemple transfert](img/example-milieu.png)
 
 ### Prérequis
 
@@ -17,8 +19,8 @@ Assurez-vous d'avoir les éléments suivants installés sur votre machine :
 **Clonez le dépôt** :
 
 ```bash
-git clone <URL_DU_DEPOT>
-cd <NOM_DU_DEPOT>
+git clone https://github.com/sulirb/Meilleurs-transferts-2024-sur-transfermarkt.git
+cd Meilleurs transferts 2024 sur transfermarkt
 ```
 
 ### Configuration
@@ -35,21 +37,24 @@ options.binary_location = r'C:\Program Files\Mozilla Firefox\firefox.exe'
 1. **Lancez l'application Flask** :
 
    ```bash
-   python index.py
+   python api/index.py
    ```
 
    L'application sera accessible à l'adresse `http://127.0.0.1:5000/`.
 
 2. **Accédez aux différentes routes** :
+
    - **Page d'accueil** : `http://127.0.0.1:5000/` - Contient des liens vers les différentes catégories de transferts.
    - **Gardiens de but** : `http://127.0.0.1:5000/goalkeepers` - Affiche les transferts des gardiens de but.
    - **Défenseurs** : `http://127.0.0.1:5000/defenders` - Affiche les transferts des défenseurs.
    - **Milieux de terrain** : `http://127.0.0.1:5000/midfielders` - Affiche les transferts des milieux de terrain.
    - **Attaquants** : `http://127.0.0.1:5000/forwards` - Affiche les transferts des attaquants.
 
+   Il y'a également un formulaire disponible, qui vous permettra de rechercher les transferts pour un poste en particulier (ex: milieu central, avant-centre...)
+
 **Attention** :
 
-Le temps de chargement peut être très long, puisque le programme va scanner plusieurs pages de transferts.
+Le temps de chargement peut être très long (environ 30 secondes), puisque le programme va scanner plusieurs pages de transferts.
 
 ### Explication du Code
 

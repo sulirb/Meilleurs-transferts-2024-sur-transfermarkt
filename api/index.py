@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.firefox.service import Service
-from flask import Flask, jsonify, render_template_string
+from flask import Flask, jsonify, render_template_string, request
 import concurrent.futures
 import os
 from urllib.parse import urljoin
@@ -72,7 +72,7 @@ def fetch_transfer_data(url):
         for player, montant, club_pair, position, link in zip(players, montants, chunked(clubs, 2), positions, anchors):
             club_1 = club_pair[0]
             club_2 = club_pair[1] if len(club_pair) > 1 else 'N/A'
-            complete_transfer.append(f'<div class="transfer"><div class="player"><a href="{link}" target="_blank">{player}</a></div> <div class="position">({position})</div> <div class="transfer-details">{club_1} ------> {club_2} (prix: {montant})</div></div>\n')
+            complete_transfer.append(f'<div class="transfer"><div class="player"><a href="{link}" target="_blank">{player}</a></div> <div class="position">({position})</div> <div class="transfer-details">{club_1} <span class="ci--arrow-right-lg"></span> {club_2} (prix: {montant})</div></div>\n')
             
         return complete_transfer
 
@@ -100,6 +100,7 @@ def run_script(base_url, num_pages = 6):
             <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
         </head>
         <body>
+        <h1>Meilleurs transferts</h1>
             <div class="container">
                 {{ content|safe }}
             </div>
@@ -125,12 +126,37 @@ def home():
             <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
         </head>
         <body>
-            <div class="container">
-                <a href="/goalkeepers">Goalkeepers</a>
-                <a href="/defenders">Defenders</a>
-                <a href="/midfielders">Midfielders</a>
-                <a href="/forwards">Forwards</a>
+        <h1>Meilleurs transferts</h1>
+            <div class="home-container">
+            <h2>Recherche rapide : </h2>
+            <ul>
+                <li><a class="poste" href="/goalkeepers">Gardiens</a></li>
+                <li><a class="poste" href="/defenders">Défenseurs</a></li>
+                <li><a class="poste" href="/midfielders">Milieux</a></li>
+                <li><a class="poste" href="/forwards">Attaquants</a></li>
+            </ul>
             </div>
+            <div class="home-container">
+               <form action="/per_position" method="get">
+                <label for="position">Recherchez un poste en particulier :</label>
+                <select id="position" name="spielerposition_id">
+                <option value="1">Gardien de but</option>
+                <option value="2">Libéro</option>
+                <option value="3">Défenseur central</option>
+                <option value="4">Arrière gauche</option>
+                <option value="5">Arrière droit</option>
+                <option value="6">Milieu défensif</option>
+                <option value="7">Milieu central</option>
+                <option value="8">Milieu droit</option>
+                <option value="9">Milieu gauche</option>
+                <option value="10">Milieu offensif</option>
+                <option value="11">Ailier gauche</option>
+                <option value="12">Ailier droit</option>
+                <option value="13">Deuxième attaquant</option>
+                <option value="14">Avant-centre</option>
+        </select>
+        <button type="submit">Valider</button>
+    </form>
         </body>
         </html>
         """
@@ -154,6 +180,12 @@ def transfertsMilieux():
 @app.route('/forwards', methods=['GET'])
 def transfertsAttaquants():
     base_url = "https://www.transfermarkt.fr/transfers/saisontransfers/statistik?land_id=0&ausrichtung=Sturm&spielerposition_id=&altersklasse=&leihe=&transferfenster=&saison-id=0&plus=1&page="
+    return run_script(base_url)
+
+@app.route('/per_position', methods=['GET'])
+def transferts_par_poste():
+    position_id = request.args.get('spielerposition_id', default='', type=str)
+    base_url = f"https://www.transfermarkt.fr/transfers/saisontransfers/statistik/top/plus/1/galerie/0?saison_id=2024&transferfenster=alle&land_id=&ausrichtung=&spielerposition_id={position_id}&altersklasse=&leihe=&transferfenster=&saison-id=0&plus=1&page="
     return run_script(base_url)
 
 if __name__ == '__main__':
