@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.options import Options
+from webdriver_manager.firefox import GeckoDriverManager
 from flask import Flask, jsonify, render_template_string, request
 import concurrent.futures
 import os
@@ -18,7 +19,7 @@ options.add_argument('--disable-dev-shm-usage')
 def fetch_transfer_data(url):
     driver = None
     try:
-        service = Service(executable_path=gecko_driver_path)
+        service = FirefoxService(GeckoDriverManager().install())
         driver = webdriver.Firefox(service=service, options=options)
         driver.get(url)
     
@@ -80,7 +81,7 @@ def fetch_transfer_data(url):
         return complete_transfer
     except Exception as e:
         print(f"Erreur lors du scraping : {str(e)}")
-        
+
     finally:
         if driver:
             driver.quit()
