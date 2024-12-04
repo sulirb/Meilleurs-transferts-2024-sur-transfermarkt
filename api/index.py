@@ -1,22 +1,25 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.firefox.service import Service
+from selenium.webdriver.firefox.options import Options
 from flask import Flask, jsonify, render_template_string, request
 import concurrent.futures
 import os
 from urllib.parse import urljoin
 
 app = Flask(__name__)
-gecko_driver_path = os.path.join(os.path.dirname(__file__), "../webdriver/geckodriver.exe")
+gecko_driver_path = os.environ.get('GECKODRIVER_PATH', '/usr/local/bin/geckodriver')
 
-options = webdriver.FirefoxOptions()
+options = Options()
 options.add_argument('--headless')
-options.binary_location = r'C:\Program Files\Mozilla Firefox\firefox.exe'
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
 
 def fetch_transfer_data(url):
     driver = None
     try:
-        driver = webdriver.Firefox(service=Service(gecko_driver_path), options=options)
+        service = Service(executable_path=gecko_driver_path)
+        driver = webdriver.Firefox(service=service, options=options)
         driver.get(url)
     
         html_content = driver.page_source
@@ -75,7 +78,9 @@ def fetch_transfer_data(url):
             complete_transfer.append(f'<div class="transfer"><div class="player"><a href="{link}" target="_blank">{player}</a></div> <div class="position">({position})</div> <div class="transfer-details">{club_1} <span class="ci--arrow-right-lg"></span> {club_2} (prix: {montant})</div></div>\n')
             
         return complete_transfer
-
+    except Exception as e:
+        print(f"Erreur lors du scraping : {str(e)}")
+        
     finally:
         if driver:
             driver.quit()
