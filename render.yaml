@@ -1,16 +1,17 @@
 services:
   - type: web
-    name: Meilleurs-transferts-2024-sur-transfermarkt
+    name: flask-selenium-app
     env: python
     buildCommand: |
+      python -m venv venv
+      . venv/bin/activate
       pip install -r requirements.txt
       apt-get update && apt-get install -y firefox-esr
       GECKODRIVER_VERSION=v0.32.0
-      wget https://github.com/mozilla/geckodriver/releases/download/v0.32.0/geckodriver-v0.32.0-linux64.tar.gz
-      tar -xvzf geckodriver-v0.32.0-linux64.tar.gz
+      wget https://github.com/mozilla/geckodriver/releases/download/$GECKODRIVER_VERSION/geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz
+      tar -xvzf geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz
       chmod +x geckodriver
       mv geckodriver /usr/local/bin/
-    startCommand: gunicorn api.index:app
-    envVars:
-      - key: GECKODRIVER_PATH
-        value: /usr/local/bin/geckodriver
+    startCommand: |
+      . venv/bin/activate
+      gunicorn api.index:app
