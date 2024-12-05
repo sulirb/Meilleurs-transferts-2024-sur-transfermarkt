@@ -86,7 +86,8 @@ def fetch_transfer_data(url):
         return complete_transfer
         logger.info("Scraping terminé avec succès")
     except Exception as e:
-        print(f"Erreur lors du scraping : {str(e)}")
+        logger.error(f"Erreur lors du scraping : {str(e)}", exc_info=True)
+        return []
 
     finally:
         if driver:
@@ -201,4 +202,4 @@ def transferts_par_poste():
     return run_script(base_url)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
