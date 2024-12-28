@@ -1,31 +1,22 @@
-import logging
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.webdriver.firefox.service import Service as FirefoxService
-from selenium.webdriver.firefox.options import Options
-from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.firefox.service import Service
 from flask import Flask, jsonify, render_template_string, request
 import concurrent.futures
 import os
 from urllib.parse import urljoin
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
 app = Flask(__name__)
+gecko_driver_path = os.path.join(os.path.dirname(__file__), "../webdriver/geckodriver.exe")
 
-options = Options()
+options = webdriver.FirefoxOptions()
 options.add_argument('--headless')
-options.add_argument('--no-sandbox')
-options.add_argument('--disable-dev-shm-usage')
+options.binary_location = r'C:\Program Files\Mozilla Firefox\firefox.exe'
 
 def fetch_transfer_data(url):
     driver = None
     try:
-        logger.info("Initialisation du driver Firefox")
-        service = FirefoxService(GeckoDriverManager().install())
-        driver = webdriver.Firefox(service=service, options=options)
-        logger.info(f"Accès à l'URL: {url}")
+        driver = webdriver.Firefox(service=Service(gecko_driver_path), options=options)
         driver.get(url)
     
         html_content = driver.page_source
@@ -84,10 +75,6 @@ def fetch_transfer_data(url):
             complete_transfer.append(f'<div class="transfer"><div class="player"><a href="{link}" target="_blank">{player}</a></div> <div class="position">({position})</div> <div class="transfer-details">{club_1} <span class="ci--arrow-right-lg"></span> {club_2} (prix: {montant})</div></div>\n')
             
         return complete_transfer
-        logger.info("Scraping terminé avec succès")
-    except Exception as e:
-        logger.error(f"Erreur lors du scraping : {str(e)}", exc_info=True)
-        return []
 
     finally:
         if driver:
@@ -202,4 +189,4 @@ def transferts_par_poste():
     return run_script(base_url)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
+    app.run(debug=True)
