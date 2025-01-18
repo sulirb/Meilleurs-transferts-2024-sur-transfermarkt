@@ -80,8 +80,8 @@ def fetch_transfer_data(url):
         if driver:
             driver.quit()
 
-def run_script(base_url, num_pages = 6):
-    urls=[f"{base_url}{page}" for page in range(1, num_pages + 1)]
+def run_script(base_url, start_page=1, end_page=5):
+    urls = [f"{base_url}{page}" for page in range(start_page, end_page + 1)]
     
     all_transfers = []
     try:
