@@ -127,7 +127,18 @@ def home():
         </head>
         <body>
         <h1>Meilleurs transferts</h1>
-            <div class="home-container">
+        <div class="home-container">
+            <!-- <fieldset>
+                <legend>Selectionne le mercato:</legend>
+                    <div>
+                        <input type="radio" id="sommer" name="mercato" value="sommer" checked />
+                        <label for="sommer">Mercato estival</label>
+                    </div> 
+                    <div>
+                        <input type="radio" id="winter" name="mercato" value="winter" />
+                        <label for="winter">Mercato hivernal</label>
+                    </div>
+            </fieldset> -->
             <h2>Recherche rapide : </h2>
             <ul>
                 <li><a class="poste" href="/goalkeepers">Gardiens</a></li>
@@ -162,31 +173,62 @@ def home():
         """
     return render_template_string(content)
 
+""" TRANSFERTS ESTIVAUX """
+
 @app.route('/goalkeepers', methods=['GET'])
 def transfertsGardiens():
-    base_url = "https://www.transfermarkt.fr/transfers/saisontransfers/statistik?land_id=0&ausrichtung=&spielerposition_id=1&altersklasse=&leihe=&transferfenster=&saison-id=0&plus=1&page="
+    base_url = "https://www.transfermarkt.fr/transfers/saisontransfers/statistik?land_id=0&ausrichtung=&spielerposition_id=1&altersklasse=&leihe=&transferfenster=sommertransfers&saison-id=0&plus=1&page="
     return run_script(base_url)
 
 @app.route('/defenders', methods=['GET'])
 def transfertsDefenseurs():
-    base_url = "https://www.transfermarkt.fr/transfers/saisontransfers/statistik?land_id=0&ausrichtung=Abwehr&spielerposition_id=&altersklasse=&leihe=&transferfenster=&saison-id=0&plus=1&page="
+    base_url = "https://www.transfermarkt.fr/transfers/saisontransfers/statistik?land_id=0&ausrichtung=Abwehr&spielerposition_id=&altersklasse=&leihe=&transferfenster=sommertransfers&saison-id=0&plus=1&page="
     return run_script(base_url)
 
 @app.route('/midfielders', methods=['GET'])
 def transfertsMilieux():
-    base_url = "https://www.transfermarkt.fr/transfers/saisontransfers/statistik?land_id=0&ausrichtung=Mittelfeld&spielerposition_id=&altersklasse=&leihe=&transferfenster=&saison-id=0&plus=1&page="
+    base_url = "https://www.transfermarkt.fr/transfers/saisontransfers/statistik?land_id=0&ausrichtung=Mittelfeld&spielerposition_id=&altersklasse=&leihe=&transferfenster=sommertransfers&saison-id=0&plus=1&page="
     return run_script(base_url)
 
 @app.route('/forwards', methods=['GET'])
 def transfertsAttaquants():
-    base_url = "https://www.transfermarkt.fr/transfers/saisontransfers/statistik?land_id=0&ausrichtung=Sturm&spielerposition_id=&altersklasse=&leihe=&transferfenster=&saison-id=0&plus=1&page="
+    base_url = "https://www.transfermarkt.fr/transfers/saisontransfers/statistik?land_id=0&ausrichtung=Sturm&spielerposition_id=&altersklasse=&leihe=&transferfenster=sommertransfers&saison-id=0&plus=1&page="
     return run_script(base_url)
 
 @app.route('/per_position', methods=['GET'])
 def transferts_par_poste():
     position_id = request.args.get('spielerposition_id', default='', type=str)
-    base_url = f"https://www.transfermarkt.fr/transfers/saisontransfers/statistik/top/plus/1/galerie/0?saison_id=2024&transferfenster=alle&land_id=&ausrichtung=&spielerposition_id={position_id}&altersklasse=&leihe=&transferfenster=&saison-id=0&plus=1&page="
+    base_url = f"https://www.transfermarkt.fr/transfers/saisontransfers/statistik/top/plus/1/galerie/0?saison_id=2024&transferfenster=alle&land_id=&ausrichtung=&spielerposition_id={position_id}&altersklasse=&leihe=&transferfenster=sommertransfers&saison-id=0&plus=1&page="
     return run_script(base_url)
 
+
+""" TRANSFERTS HIVERNAUX """
+"""
+@app.route('/goalkeepers', methods=['GET'])
+def transfertsGardiens():
+    base_url = "https://www.transfermarkt.fr/transfers/saisontransfers/statistik?land_id=0&ausrichtung=&spielerposition_id=1&altersklasse=&leihe=&transferfenster=wintertransfers&saison-id=0&plus=1&page="
+    return run_script(base_url)
+
+@app.route('/defenders', methods=['GET'])
+def transfertsDefenseurs():
+    base_url = "https://www.transfermarkt.fr/transfers/saisontransfers/statistik?land_id=0&ausrichtung=Abwehr&spielerposition_id=&altersklasse=&leihe=&transferfenster=wintertransfers&saison-id=0&plus=1&page="
+    return run_script(base_url)
+
+@app.route('/midfielders', methods=['GET'])
+def transfertsMilieux():
+    base_url = "https://www.transfermarkt.fr/transfers/saisontransfers/statistik?land_id=0&ausrichtung=Mittelfeld&spielerposition_id=&altersklasse=&leihe=&transferfenster=wintertransfers&saison-id=0&plus=1&page="
+    return run_script(base_url)
+
+@app.route('/forwards', methods=['GET'])
+def transfertsAttaquants():
+    base_url = "https://www.transfermarkt.fr/transfers/saisontransfers/statistik?land_id=0&ausrichtung=Sturm&spielerposition_id=&altersklasse=&leihe=&transferfenster=wintertransfers&saison-id=0&plus=1&page="
+    return run_script(base_url)
+
+@app.route('/per_position', methods=['GET'])
+def transferts_par_poste():
+    position_id = request.args.get('spielerposition_id', default='', type=str)
+    base_url = f"https://www.transfermarkt.fr/transfers/saisontransfers/statistik/top/plus/1/galerie/0?saison_id=2024&transferfenster=alle&land_id=&ausrichtung=&spielerposition_id={position_id}&altersklasse=&leihe=&transferfenster=wintertransfers&saison-id=0&plus=1&page="
+    return run_script(base_url)
+"""
 if __name__ == '__main__':
     app.run(debug=True)
