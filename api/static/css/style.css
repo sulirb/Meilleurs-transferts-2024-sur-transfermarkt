@@ -1,15 +1,29 @@
+/* General Styles */
 body {
   font-family: Arial, sans-serif;
   margin: 20px;
   background-color: black;
 }
+
+/* Typography */
 h1 {
   text-align: center;
   color: #ffdd25;
 }
+
 h2 {
   color: #ffdd25;
 }
+
+h3 {
+  color: #ffdd25;
+}
+
+label {
+  color: white;
+}
+
+/* Layout and Containers */
 .transfer,
 .home-container {
   background-color: #454343;
@@ -19,30 +33,71 @@ h2 {
   margin-bottom: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-label {
-  color: white;
+
+.home-container {
+  margin-bottom: 2em;
 }
+
+.rapid-search,
+.advanced-search {
+  padding: 0 1em;
+}
+
+fieldset {
+  margin: 0 1em 2em;
+  padding: 1em;
+}
+
+/* Form Elements */
+select {
+  font-size: 16px;
+  margin: 0 0 0.5em 0;
+}
+
+button {
+  margin: 0 1em 1em;
+  width: 100px;
+  height: 50px;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.mercato-type {
+  margin: 0 0 0.5em 0;
+}
+
+/* Lists */
 li {
   margin: 1em;
   list-style-type: disclosure-closed;
 }
+
 li::marker {
   color: rgb(255, 255, 255);
 }
+
+/* Links */
 a {
   color: #ffdd25;
   text-decoration: none;
 }
+
 a:hover {
   text-decoration: underline;
 }
+
+/* Player Information */
 .player {
   font-weight: bold;
   font-size: 1.4em;
 }
+
 .position {
   color: white;
 }
+
+/* Transfer Details */
 .transfer-details {
   margin-top: 5px;
   font-size: 1.2em;
@@ -50,6 +105,8 @@ a:hover {
   display: flex;
   align-items: center;
 }
+
+/* Icon  */
 .ci--arrow-right-lg {
   margin: 0 0.5em;
   display: inline-block;
