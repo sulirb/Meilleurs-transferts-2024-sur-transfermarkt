@@ -4,6 +4,8 @@
 
 Ce projet est une application web développée avec Flask qui utilise Selenium et BeautifulSoup pour extraire des données d'environ 1500 transferts de joueurs de football depuis le site Transfermarkt. Les données récupérées sont affichées sur différentes routes de l'application.
 
+**_JANVIER 2025_** : Possibilité de choisir les transferts selon la fenêtre dans laquelle ils ont été réalisés (mercato estival/mercato hivernal)
+
 ![exemple transfert](img/example-milieu.png)
 
 ### Prérequis
@@ -61,7 +63,7 @@ Le temps de chargement peut être très long (environ 30 secondes), puisque le p
 - **fetch_transfer_data(url)** :
   Cette fonction utilise Selenium pour charger la page web spécifiée par l'URL, extrait les données de transfert des joueurs avec BeautifulSoup, et retourne une liste de transferts formatés en HTML.
 
-- **run_script(base_url, num_pages=6)** :
+- **run_script(base_url, start_page=1, end_page=5)** :
   Cette fonction génère les URLs des pages à scraper, utilise un ThreadPoolExecutor pour paralléliser les requêtes, et retourne le contenu HTML formaté pour être rendu par Flask.
 
 - **Routes Flask** :
