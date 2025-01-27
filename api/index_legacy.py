@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.firefox.service import Service
-from selenium.webdriver.firefox.options import Options
 from flask import Flask, jsonify, render_template_string, request
 import concurrent.futures
 import os
@@ -10,14 +9,9 @@ from urllib.parse import urljoin
 app = Flask(__name__)
 gecko_driver_path = os.path.join(os.path.dirname(__file__), "../webdriver/geckodriver.exe")
 
-options = Options()
-options.add_argument('--headless')  # Mode sans tête
-options.add_argument('--disable-gpu')
-options.add_argument('--no-sandbox')
-options.add_argument('--disable-dev-shm-usage')
-
-# Utiliser le geckodriver fourni par le système
-gecko_driver_path = "/usr/local/bin/geckodriver"
+options = webdriver.FirefoxOptions()
+options.add_argument('--headless')
+options.binary_location = r'C:\Program Files\Mozilla Firefox\firefox.exe'
 
 def fetch_transfer_data(url):
     driver = None

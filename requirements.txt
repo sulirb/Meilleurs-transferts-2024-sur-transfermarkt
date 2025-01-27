@@ -5,3 +5,4 @@ urllib3==2.2.1
 selenium==4.22.0
 Gunicorn==23.0.0
 webdriver_manager==3.8.6
+concurrent-log-handler==0.9.20
