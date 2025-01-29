@@ -8,7 +8,7 @@ import os
 from urllib.parse import urljoin
 
 app = Flask(__name__)
-gecko_driver_path = os.path.join(os.path.dirname(__file__), "./webdriver/geckodriver.exe")
+gecko_driver_path = os.path.join(os.path.dirname(__file__), "/webdriver/geckodriver.exe")
 
 options = Options()
 options.add_argument('--headless')  # Mode sans tête
