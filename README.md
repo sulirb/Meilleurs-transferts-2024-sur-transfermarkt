@@ -77,6 +77,7 @@ Le temps de chargement peut être très long (environ 30 secondes), puisque le p
 
 - Assurez-vous que Firefox est correctement installés et configurés sur votre machine.
 - Si vous rencontrez des problèmes, vérifiez les chemins d'accès et les permissions des fichiers.
+- Vous ppouvez également récuperer les données sous forme de JSON, en executant le script api/scraper_to_json.py
 
 ### Contribuer
 
