@@ -126,7 +126,7 @@ def home():
             <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
         </head>
         <body>
-        <h1>Transferts saison 2024-2025</h1>
+        <h1>Transferts saison 2025-2026</h1>
             <div class="home-container">
                 <div class="rapid-search">
                     <h2>Recherche rapide : </h2>
@@ -206,7 +206,7 @@ def search():
          else:
               return "Erreur dans la requete du poste"
     elif position_id:
-            base_url = f"https://www.transfermarkt.fr/transfers/saisontransfers/statistik/top/plus/1/galerie/0?saison_id=2024&transferfenster=alle&land_id=&ausrichtung=&spielerposition_id={position_id}&altersklasse=&leihe=&transferfenster={transfer_window}&saison-id=0&plus=1&page="
+            base_url = f"https://www.transfermarkt.fr/transfers/saisontransfers/statistik/top/plus/1/galerie/0?saison_id=2025&transferfenster=alle&land_id=&ausrichtung=&spielerposition_id={position_id}&altersklasse=&leihe=&transferfenster={transfer_window}&saison-id=0&plus=1&page="
     else:
          return "Erreur dans la requete des paramètres"
          
